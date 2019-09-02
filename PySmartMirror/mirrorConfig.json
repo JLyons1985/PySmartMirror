@@ -2,7 +2,7 @@
     "productId":"rachelsVanityMirror",
     "dsn":"123456",
     "weatherApi":{
-        "weatherApiKey":"7fa9a9b62e119a590aec11c211c438be",
+        "weatherApiKey":"",
         "weatherState":"IL",
         "weatherCity":"O'Fallon",
         "currentWeatherUrl": "http://api.openweathermap.org/data/2.5/weather",
@@ -16,7 +16,7 @@
         "quoteLanguage": "en"
     },
     "googleTrafficApi": {
-        "distanceApiKey":"AIzaSyDpEjVUy6ok6vhUZgMjokl4umADhc0TIvo",
+        "distanceApiKey":"",
         "origins":"716 Cardiff Ct. O'Fallon IL",
         "destinations":"121-341 W Clay St Scott AFB IL",
         "googleDistanceUrl": "https://maps.googleapis.com/maps/api/distancematrix/json",
