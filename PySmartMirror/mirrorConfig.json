@@ -1,0 +1,46 @@
+{
+    "productId":"rachelsVanityMirror",
+    "dsn":"123456",
+    "weatherApi":{
+        "weatherApiKey":"7fa9a9b62e119a590aec11c211c438be",
+        "weatherState":"IL",
+        "weatherCity":"O'Fallon",
+        "currentWeatherUrl": "http://api.openweathermap.org/data/2.5/weather",
+        "wxImageUrl": "https://openweathermap.org/img/wn/",
+        "weatherZip": "62269",
+        "weatherCountry": "us",
+        "weatherUnits": "imperial"
+    },
+    "quoteApi": {
+        "quoteUrl": "http://api.forismatic.com/api/1.0/",
+        "quoteLanguage": "en"
+    },
+    "googleTrafficApi": {
+        "distanceApiKey":"AIzaSyDpEjVUy6ok6vhUZgMjokl4umADhc0TIvo",
+        "origins":"716 Cardiff Ct. O'Fallon IL",
+        "destinations":"121-341 W Clay St Scott AFB IL",
+        "googleDistanceUrl": "https://maps.googleapis.com/maps/api/distancematrix/json",
+        "departureMinutesFromNow": 5
+    },
+    "mirrorServers": {
+        "mirrorPort": 7466,
+        "masterServerPort" : 7465,
+        "masterServerIP": "127.0.0.1"
+    },
+    "speech": {
+        "pathToFile": "/home/pi/PythonMasterServer/audio.flac"
+    },
+    "faceRecognition": {
+        "positiveThreshold": 2000.0,
+        "trainingFile": "training.xml",
+        "negativeDirectory": "faceRecTraining/negative",
+        "faceWidth": 92,
+        "faceHeight": 112,
+        "haarFaces": "haarcascade_frontalface_alt.xml",
+        "haarScaleFactor": 1.3,
+        "haarMinNeighbors": 4,
+        "haarMinSize": 30,
+        "debugImage": "capture.pgm",
+        "recognitionTries": 5
+    }
+}
