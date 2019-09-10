@@ -28,11 +28,7 @@ class WxForecastItemWidget(QtWidgets.QWidget):
         self.skyImage.setText("")
         self.skyImage.setAlignment(QtCore.Qt.AlignCenter)
         self.skyImage.setObjectName("skyImage")
-        response = requests.get(image)
-        imageData = response.content
-        wxImage = QPixmap()
-        wxImage.loadFromData(imageData)
-        self.skyImage.setPixmap(wxImage)
+        self.skyImage.setPixmap(image)
         self.highLabel = QtWidgets.QLabel(self)
         self.highLabel.setGeometry(QtCore.QRect(232, 0, 74, 50))
         font = QtGui.QFont()

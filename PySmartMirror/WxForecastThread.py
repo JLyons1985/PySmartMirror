@@ -1,17 +1,20 @@
 import json
 import requests
+from PyQt5.QtGui import QPixmap
+
 import PySmartMirror.Config as Config
 import time
 import datetime
 
 from PyQt5.QtCore import pyqtSignal
 from PySmartMirror.MirrorThread import MirrorThread
+from PySmartMirror.WxForecastItemModel import WxForecastItemModel
 
 delay = 3000000
 
 
 class WxForecastThread(MirrorThread):
-    sendWxForecastForecast = pyqtSignal(str)
+    sendWxForecastForecast = pyqtSignal(object)
 
     def __init__(self, parent=None):
         super().__init__()
@@ -41,16 +44,16 @@ class WxForecastThread(MirrorThread):
         forecastReturn = []
 
         for forecast in forecasts:
-            tmpForecast = {}
             forecastDate = datetime.datetime.fromtimestamp(forecast['dt'])
-            tmpForecast['day'] = forecastDate.strftime("%A")
 
             icon = forecast['weather'][0]['icon']
             url = weatherConfig["wxImageUrl"] + icon + "@2x.png"
-            tmpForecast['icon'] = url
+            response = requests.get(url)
+            imageData = response.content
+            wxImage = QPixmap()
+            wxImage.loadFromData(imageData)
+            forecastReturn.append(WxForecastItemModel(forecastDate.strftime("%A"),
+                                                      wxImage, str(round(forecast['temp']['max'])),
+                                                      str(round(forecast['temp']['min']))))
 
-            tmpForecast['low'] = str(round(forecast['temp']['min']))
-            tmpForecast['high'] = str(round(forecast['temp']['max']))
-            forecastReturn.append(tmpForecast)
-
-        self.sendWxForecastForecast.emit(json.dumps(forecastReturn))
+        self.sendWxForecastForecast.emit(forecastReturn)

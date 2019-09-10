@@ -13,6 +13,7 @@ from PySmartMirror.TrafficThread import TrafficThread
 from PySmartMirror.CalendarItemWidget import CalendarItemWidget
 from PySmartMirror.WxForecastItemWidget import WxForecastItemWidget
 from PySmartMirror.WxForecastThread import WxForecastThread
+from PySmartMirror.WxForecastItemModel import WxForecastItemModel
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -187,18 +188,14 @@ class MainWindow(QMainWindow):
         self.currentWxImage.setPixmap(wxImage)
 
     # Forecast Weather
-    def setWxForecastItems(self, forecastJsonStr):
-        forecasts = json.loads(forecastJsonStr)
+    def setWxForecastItems(self, forecasts):
 
         for forecast in forecasts:
             item = QListWidgetItem(self.wxForecastListView)
-            item_widget = WxForecastItemWidget(forecast['day'], forecast['icon'], forecast['high'], forecast['low'])
+            item_widget = WxForecastItemWidget(forecast.day, forecast.icon, forecast.high, forecast.low)
             item.setSizeHint(item_widget.size())
             self.wxForecastListView.addItem(item)
             self.wxForecastListView.setItemWidget(item, item_widget)
-
-
-        print(forecasts)
 
     # Quote
     def setQuoteQuote(self, quote):
