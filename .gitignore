@@ -102,7 +102,7 @@ venv.bak/
 # mkdocs documentation
 /site
 
-PySmartMirror/mirrorConfig.json
+.PySmartMirror/mirrorConfig.json
 
 # mypy
 .mypy_cache/
