@@ -23,7 +23,7 @@ class QuoteThread(MirrorThread):
             print(e)
 
     def updateQuote(self):
-        quoteConfig = weatherConfig = Config.getQuoteConfigData()
+        quoteConfig = Config.getQuoteConfigData()
         url = quoteConfig["quoteUrl"]
         postData = {'method': 'getQuote', 'format': 'json', 'lang': 'en'}
         response = requests.post(url, postData)

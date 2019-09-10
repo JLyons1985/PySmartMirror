@@ -1,4 +1,5 @@
 import sys
+import json
 
 from PyQt5.QtWidgets import QApplication, QMainWindow, QGraphicsOpacityEffect, QListWidgetItem
 from PyQt5.QtCore import QPropertyAnimation, Qt, QTimer
@@ -11,6 +12,7 @@ from PySmartMirror.NotificationThread import NotificationThread
 from PySmartMirror.TrafficThread import TrafficThread
 from PySmartMirror.CalendarItemWidget import CalendarItemWidget
 from PySmartMirror.WxForecastItemWidget import WxForecastItemWidget
+from PySmartMirror.WxForecastThread import WxForecastThread
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -20,6 +22,7 @@ class MainWindow(QMainWindow):
         self.isMirrorAwake = False
         self.clockThread = ClockThread()
         self.currentWxThread = CurrentWeatherThread()
+        self.forecastWxThread = WxForecastThread()
         self.quoteThread = QuoteThread()
         self.trafficThread = TrafficThread()
         self.notificationThread = NotificationThread()
@@ -50,11 +53,7 @@ class MainWindow(QMainWindow):
             item.setSizeHint(item_widget.size())
             self.calendarListView.addItem(item)
             self.calendarListView.setItemWidget(item, item_widget)
-            item2 = QListWidgetItem(self.wxForecastListView)
-            item_widget2 = WxForecastItemWidget("Test", ??, "End", "Start")
-            item.setSizeHint(item_widget.size())
-            self.calendarListView.addItem(item)
-            self.calendarListView.setItemWidget(item, item_widget)
+
 
     def connectSignals(self):
         # Notifications
@@ -72,6 +71,9 @@ class MainWindow(QMainWindow):
         self.currentWxThread.sendWxConditionsSignal.connect(self.setCurrentWxConditions)
         self.currentWxThread.sendWxWindsSignal.connect(self.setCurrentWxWinds)
         self.currentWxThread.sendWxGraphicSignal.connect(self.setCurrentWxImage)
+
+        # Forecast Weather
+        self.forecastWxThread.sendWxForecastForecast.connect(self.setWxForecastItems)
 
         # Quote
         self.quoteThread.sendQuoteQuote.connect(self.setQuoteQuote)
@@ -95,6 +97,10 @@ class MainWindow(QMainWindow):
         self.currentWxThread.setRunning(True)
         self.currentWxThread.start()
 
+        # Forecast Weather
+        self.forecastWxThread.setRunning(True)
+        self.forecastWxThread.start()
+
         # Quote
         self.quoteThread.setRunning(True)
         self.quoteThread.start()
@@ -115,6 +121,10 @@ class MainWindow(QMainWindow):
         # Current Weather
         self.currentWxThread.setRunning(False)
         self.currentWxThread.quit()
+
+        # Forecast Weather
+        self.forecastWxThread.setRunning(False)
+        self.forecastWxThread.quit()
 
         # Quote
         self.quoteThread.setRunning(False)
@@ -175,6 +185,20 @@ class MainWindow(QMainWindow):
 
     def setCurrentWxImage(self, wxImage):
         self.currentWxImage.setPixmap(wxImage)
+
+    # Forecast Weather
+    def setWxForecastItems(self, forecastJsonStr):
+        forecasts = json.loads(forecastJsonStr)
+
+        for forecast in forecasts:
+            item = QListWidgetItem(self.wxForecastListView)
+            item_widget = WxForecastItemWidget(forecast['day'], forecast['icon'], forecast['high'], forecast['low'])
+            item.setSizeHint(item_widget.size())
+            self.wxForecastListView.addItem(item)
+            self.wxForecastListView.setItemWidget(item, item_widget)
+
+
+        print(forecasts)
 
     # Quote
     def setQuoteQuote(self, quote):

@@ -1,4 +1,6 @@
+import requests
 from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5.QtGui import QPixmap
 
 
 class WxForecastItemWidget(QtWidgets.QWidget):
@@ -10,12 +12,12 @@ class WxForecastItemWidget(QtWidgets.QWidget):
         self.dayLabel.setGeometry(QtCore.QRect(0, 0, 120, 50))
         font = QtGui.QFont()
         font.setFamily("Helvetica Neue")
-        font.setPointSize(18)
+        font.setPointSize(14)
         self.dayLabel.setFont(font)
         self.dayLabel.setStyleSheet("color: #ffffffff")
         self.dayLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.dayLabel.setObjectName("dayLabel")
-        self.dayLabel.setText = day
+        self.dayLabel.setText(day)
         self.skyImage = QtWidgets.QLabel(self)
         self.skyImage.setGeometry(QtCore.QRect(130, 0, 80, 50))
         font = QtGui.QFont()
@@ -26,12 +28,16 @@ class WxForecastItemWidget(QtWidgets.QWidget):
         self.skyImage.setText("")
         self.skyImage.setAlignment(QtCore.Qt.AlignCenter)
         self.skyImage.setObjectName("skyImage")
-        self.skyImage.setPixmap(image)
+        response = requests.get(image)
+        imageData = response.content
+        wxImage = QPixmap()
+        wxImage.loadFromData(imageData)
+        self.skyImage.setPixmap(wxImage)
         self.highLabel = QtWidgets.QLabel(self)
         self.highLabel.setGeometry(QtCore.QRect(232, 0, 74, 50))
         font = QtGui.QFont()
         font.setFamily("Helvetica Neue")
-        font.setPointSize(18)
+        font.setPointSize(14)
         self.highLabel.setFont(font)
         self.highLabel.setStyleSheet("color: #ffffffff")
         self.highLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -41,7 +47,7 @@ class WxForecastItemWidget(QtWidgets.QWidget):
         self.lowLabel.setGeometry(QtCore.QRect(319, 0, 74, 50))
         font = QtGui.QFont()
         font.setFamily("Helvetica Neue")
-        font.setPointSize(18)
+        font.setPointSize(14)
         self.lowLabel.setFont(font)
         self.lowLabel.setStyleSheet("color: #ffffffff")
         self.lowLabel.setAlignment(QtCore.Qt.AlignCenter)

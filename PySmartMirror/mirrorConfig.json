@@ -6,6 +6,7 @@
         "weatherState":"IL",
         "weatherCity":"O'Fallon",
         "currentWeatherUrl": "http://api.openweathermap.org/data/2.5/weather",
+        "forecastWeatherUrl": "http://api.openweathermap.org/data/2.5/forecast/daily",
         "wxImageUrl": "https://openweathermap.org/img/wn/",
         "weatherZip": "62269",
         "weatherCountry": "us",
